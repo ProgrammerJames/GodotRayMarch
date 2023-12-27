@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://7sb7dhf42y6b"]
+
+[ext_resource type="Script" path="res://Scenes/RayMarchCamera.gd" id="1_1qkcm"]
+[ext_resource type="Shader" path="res://Shaders/march.gdshader" id="1_47sjj"]
+[ext_resource type="Texture2D" uid="uid://ci8bw2d6y7ytc" path="res://Assets/SDF.png" id="3_qms4t"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hom1u"]
+shader = ExtResource("1_47sjj")
+shader_parameter/nw_origin = null
+shader_parameter/nw_bearing = null
+shader_parameter/ne_origin = null
+shader_parameter/ne_bearing = null
+shader_parameter/se_origin = null
+shader_parameter/se_bearing = null
+shader_parameter/sw_origin = null
+shader_parameter/sw_bearing = null
+shader_parameter/grid = ExtResource("3_qms4t")
+
+[sub_resource type="SphereMesh" id="SphereMesh_xhxkl"]
+
+[node name="MainScene" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("Screen")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 0, 1)
+script = ExtResource("1_1qkcm")
+Screen = NodePath("MarginContainer/Panel")
+
+[node name="MarginContainer" type="MarginContainer" parent="Camera3D"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="Camera3D/MarginContainer"]
+material = SubResource("ShaderMaterial_hom1u")
+layout_mode = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("SphereMesh_xhxkl")
